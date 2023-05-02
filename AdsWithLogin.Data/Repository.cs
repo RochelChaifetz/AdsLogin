@@ -38,12 +38,12 @@ namespace AdsWithLogin.Data
             if (ad.Name == null)
             {
                 command.CommandText = "INSERT INTO Ads (DateCreated, Phone, Description)" +
-                "VALUES (@dateCreated, @phone, @description) SELECT SCOPE_IDENTITY()";
+                "VALUES (@dateCreated, @phone, @description)";
             }
             else
             {
                 command.CommandText = "INSERT INTO Ads (Name, DateCreated, Phone, Description)" +
-              "VALUES (@name, @dateCreated, @phone, @description) SELECT SCOPE_IDENTITY()";
+              "VALUES (@name, @dateCreated, @phone, @description)";
                 command.Parameters.AddWithValue("@name", ad.Name);
             }
             command.Parameters.AddWithValue("@userId", ad.UserId);
@@ -69,7 +69,7 @@ namespace AdsWithLogin.Data
                 ads.Add(new Ad
                 {
                     Id = (int)reader["Id"],
-                    Name = (string)reader.GetOrNull<string>("Name"),
+                    UserId = (int)reader["Id"],
                     DateCreated = (DateTime)reader["DateCreated"],
                     Phone = (string)reader["Phone"],
                     Description = (string)reader["Description"],
@@ -97,7 +97,6 @@ namespace AdsWithLogin.Data
                     DateCreated = (DateTime)reader["Date"],
                 });
             }
-            connection.Close();
             return list;
         }
         public string GetUserName(int id)
